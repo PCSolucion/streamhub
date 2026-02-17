@@ -1,5 +1,5 @@
 
-export type Category = 'All Assets' | 'Widgets' | 'Intros' | 'Outros' | 'Scripts' | 'Tutorials';
+export type Category = 'All Assets' | 'Widgets' | 'Intros' | 'Outros' | 'Scripts' | 'Tutorials' | 'Panels';
 
 export type BadgeType = 'Bestseller' | 'Sale' | 'Free' | 'New' | 'Featured';
 

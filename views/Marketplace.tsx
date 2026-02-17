@@ -14,6 +14,11 @@ const Marketplace: React.FC = () => {
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(25);
   const [sortBy, setSortBy] = useState('Más Populares');
+  const [isSortOpen, setIsSortOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 6;
+
+  const sortOptions = ['Más Populares', 'Más Recientes', 'Precio: Bajo a Alto', 'Precio: Alto a Bajo'];
 
   const categories: { name: Category; label: string; count: number; icon: string }[] = [
     { name: 'All Assets', label: 'Todo', count: ASSETS.length, icon: 'grid_view' },
@@ -22,6 +27,7 @@ const Marketplace: React.FC = () => {
     { name: 'Outros', label: 'Outros', count: ASSETS.filter(a => a.category === 'Outros').length, icon: 'logout' },
     { name: 'Scripts', label: 'Scripts', count: ASSETS.filter(a => a.category === 'Scripts').length, icon: 'terminal' },
     { name: 'Tutorials', label: 'Tutoriales', count: ASSETS.filter(a => a.category === 'Tutorials').length, icon: 'school' },
+    { name: 'Panels', label: 'Paneles', count: ASSETS.filter(a => a.category === 'Panels').length, icon: 'dashboard' },
   ];
 
   const handleCategoryChange = (category: Category) => {
@@ -32,6 +38,7 @@ const Marketplace: React.FC = () => {
           newParams.set('category', category);
       }
       setSearchParams(newParams);
+      setCurrentPage(1); // Reset to first page on category change
   };
 
   const filteredAssets = ASSETS.filter(asset => {
@@ -63,6 +70,12 @@ const Marketplace: React.FC = () => {
     }
     return parseInt(a.id) - parseInt(b.id);
   });
+
+  const totalPages = Math.ceil(filteredAssets.length / ITEMS_PER_PAGE);
+  const paginatedAssets = filteredAssets.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
 
   return (
     <div className="max-w-[1440px] mx-auto flex flex-col lg:flex-row min-h-screen">
@@ -132,27 +145,48 @@ const Marketplace: React.FC = () => {
 
       {/* Product Feed */}
       <section className="flex-1 p-6 lg:p-10">
-        <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div>
-            <h2 className="text-4xl lg:text-5xl font-black tracking-tighter mb-3">Tienda de Recursos</h2>
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="text-xs font-black uppercase tracking-widest text-slate-600">Ordenar:</span>
-            <select 
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="bg-surface-accent/60 border-none rounded-lg py-2.5 pl-4 pr-10 text-sm font-bold focus:ring-primary focus:ring-1 cursor-pointer transition-all"
+        <div className="mb-8 flex justify-end relative z-50">
+          <div className="relative">
+            <button 
+              onClick={() => setIsSortOpen(!isSortOpen)}
+              className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl p-2 px-4 backdrop-blur-md hover:bg-white/10 hover:border-primary/50 transition-all group"
             >
-              <option>Más Populares</option>
-              <option>Más Recientes</option>
-              <option>Precio: Bajo a Alto</option>
-              <option>Precio: Alto a Bajo</option>
-            </select>
+              <span className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-500 group-hover:text-slate-400">Ordenar por</span>
+              <span className="text-[11px] font-bold text-white flex items-center gap-2">
+                {sortBy}
+                <span className={`material-symbols-outlined text-sm transition-transform duration-300 ${isSortOpen ? 'rotate-180 text-primary' : 'text-slate-500'}`}>expand_more</span>
+              </span>
+            </button>
+
+            {isSortOpen && (
+              <>
+                <div 
+                  className="fixed inset-0 z-[-1]" 
+                  onClick={() => setIsSortOpen(false)}
+                ></div>
+                <div className="absolute top-full right-0 mt-2 w-48 bg-surface-dark/95 border border-white/10 rounded-xl shadow-2xl backdrop-blur-xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="p-1.5 flex flex-col">
+                    {sortOptions.map((option) => (
+                      <button
+                        key={option}
+                        onClick={() => {
+                          setSortBy(option);
+                          setIsSortOpen(false);
+                        }}
+                        className={`text-left px-3 py-2 rounded-lg text-xs font-bold transition-all ${sortBy === option ? 'bg-primary text-white' : 'text-slate-400 hover:bg-white/5 hover:text-white'}`}
+                      >
+                        {option}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-          {filteredAssets.map((asset) => (
+          {paginatedAssets.map((asset) => (
             <article 
               key={asset.id} 
               className="group flex flex-col bg-surface-accent/20 rounded-2xl overflow-hidden border border-white/5 hover:border-primary/40 hover:bg-surface-accent/30 transition-all duration-500 cursor-pointer shadow-sm hover:shadow-2xl hover:shadow-primary/5"
@@ -164,9 +198,9 @@ const Marketplace: React.FC = () => {
                 
                 <div className="absolute top-4 left-4 px-2.5 py-1 rounded bg-surface-dark/90 text-white backdrop-blur-md text-[10px] font-black uppercase tracking-widest flex items-center gap-2 border border-white/10">
                   <span className="material-symbols-outlined text-xs leading-none text-primary">
-                    {asset.category === 'Widgets' ? 'widgets' : asset.category === 'Intros' ? 'movie' : asset.category === 'Scripts' ? 'terminal' : asset.category === 'Outros' ? 'logout' : 'school'}
+                    {asset.category === 'Widgets' ? 'widgets' : asset.category === 'Intros' ? 'movie' : asset.category === 'Scripts' ? 'terminal' : asset.category === 'Outros' ? 'logout' : asset.category === 'Panels' ? 'dashboard' : 'school'}
                   </span>
-                  {asset.category === 'Tutorials' ? 'Tutoriales' : asset.category}
+                  {asset.category === 'Tutorials' ? 'Tutoriales' : asset.category === 'Panels' ? 'Paneles' : asset.category}
                 </div>
 
                 {asset.badge && (
@@ -221,17 +255,35 @@ const Marketplace: React.FC = () => {
         )}
 
         {/* Pagination */}
-        <div className="mt-20 flex items-center justify-center gap-3">
-          <button className="size-11 flex items-center justify-center rounded-xl bg-surface-accent/40 text-slate-400 hover:text-white hover:bg-primary transition-all shadow-sm">
-            <span className="material-symbols-outlined">chevron_left</span>
-          </button>
-          {[1, 2, 3].map(p => (
-            <button key={p} className={`size-11 flex items-center justify-center rounded-xl font-black text-sm transition-all shadow-sm ${p === 1 ? 'bg-primary text-white scale-110' : 'bg-surface-accent/40 text-slate-400 hover:bg-surface-accent'}`}>{p}</button>
-          ))}
-          <button className="size-11 flex items-center justify-center rounded-xl bg-surface-accent/40 text-slate-400 hover:text-white hover:bg-primary transition-all shadow-sm">
-            <span className="material-symbols-outlined">chevron_right</span>
-          </button>
-        </div>
+        {totalPages > 1 && (
+          <div className="mt-20 flex items-center justify-center gap-3">
+            <button 
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+              className={`size-11 flex items-center justify-center rounded-xl transition-all shadow-sm ${currentPage === 1 ? 'bg-surface-accent/20 text-slate-700 cursor-not-allowed' : 'bg-surface-accent/40 text-slate-400 hover:text-white hover:bg-primary'}`}
+            >
+              <span className="material-symbols-outlined">chevron_left</span>
+            </button>
+            
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
+              <button 
+                key={p} 
+                onClick={() => setCurrentPage(p)}
+                className={`size-11 flex items-center justify-center rounded-xl font-black text-sm transition-all shadow-sm ${p === currentPage ? 'bg-primary text-white scale-110' : 'bg-surface-accent/40 text-slate-400 hover:bg-surface-accent'}`}
+              >
+                {p}
+              </button>
+            ))}
+
+            <button 
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+              className={`size-11 flex items-center justify-center rounded-xl transition-all shadow-sm ${currentPage === totalPages ? 'bg-surface-accent/20 text-slate-700 cursor-not-allowed' : 'bg-surface-accent/40 text-slate-400 hover:text-white hover:bg-primary'}`}
+            >
+              <span className="material-symbols-outlined">chevron_right</span>
+            </button>
+          </div>
+        )}
       </section>
     </div>
   );

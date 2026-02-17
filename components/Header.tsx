@@ -43,33 +43,55 @@ const Header: React.FC<HeaderProps> = ({ cartCount }) => {
           </h1>
         </Link>
 
-        <div className="flex-1 max-w-xl mx-4">
-          <div className="relative flex items-center group">
-            <span className="material-symbols-outlined absolute left-3 text-slate-500 group-focus-within:text-primary transition-colors">search</span>
-            <input 
-              value={searchValue}
-              onChange={(e) => handleSearch(e.target.value)}
-              className="w-full bg-surface-accent/40 border-none rounded-lg py-2 pl-10 pr-4 text-sm text-white focus:ring-2 focus:ring-primary placeholder:text-slate-500 transition-all" 
-              placeholder="Buscar intros, scripts, widgets..." 
-              type="text"
-            />
+        <div className="flex-1 max-w-2xl mx-6">
+          <div className="relative group">
+            <div className="absolute inset-0 bg-primary/5 rounded-2xl blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity duration-500"></div>
+            <div className="relative flex items-center bg-surface-accent/20 border border-white/5 rounded-2xl group-focus-within:border-primary/50 group-focus-within:bg-surface-accent/40 transition-all duration-300 backdrop-blur-sm overflow-hidden shadow-2xl">
+              <div className="pl-4 h-11 flex items-center justify-center pointer-events-none">
+                <span className="material-symbols-outlined text-slate-500 group-focus-within:text-primary transition-colors text-[20px]">search</span>
+              </div>
+              <input 
+                value={searchValue}
+                onChange={(e) => handleSearch(e.target.value)}
+                className="w-full bg-transparent border-none py-2 px-3 text-sm text-white focus:ring-0 placeholder:text-slate-600 font-medium h-11" 
+                placeholder="Busca el recurso perfecto para tu stream..." 
+                type="text"
+              />
+              <div className="pr-3 flex items-center gap-2">
+                <div className="hidden sm:flex items-center gap-1 border border-white/10 rounded-md px-1.5 py-0.5 bg-white/5 text-[10px] font-black tracking-widest text-slate-500">
+                  <span className="material-symbols-outlined text-[10px]">keyboard_command_key</span>
+                  K
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         <div className="flex items-center gap-4 lg:gap-8">
-          <nav className="hidden md:flex items-center gap-6">
-            <Link 
-              to="/"
-              className={`text-sm font-bold tracking-wide transition-colors ${location.pathname === '/' ? 'text-primary' : 'hover:text-primary text-slate-300'}`}
-            >
-              Tienda
-            </Link>
-            <Link 
-              to="/tutorials"
-              className={`text-sm font-bold tracking-wide transition-colors ${location.pathname === '/tutorials' ? 'text-primary' : 'hover:text-primary text-slate-300'}`}
-            >
-              Tutoriales
-            </Link>
+          <nav className="hidden md:flex items-center gap-1 bg-white/[0.03] border border-white/5 p-1 rounded-2xl backdrop-blur-sm">
+            {[
+              { path: '/', label: 'Tienda', icon: 'storefront' },
+              { path: '/tutorials', label: 'Tutoriales', icon: 'school' },
+            ].map((item) => {
+              const active = location.pathname === item.path;
+              return (
+                <Link 
+                  key={item.path}
+                  to={item.path}
+                  className={`
+                    flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all duration-300 group
+                    ${active 
+                      ? 'bg-primary/20 text-white shadow-[0_0_20px_rgba(19,19,236,0.15)]' 
+                      : 'text-slate-400 hover:text-white hover:bg-white/[0.05]'}
+                  `}
+                >
+                  <span className={`material-symbols-outlined text-[18px] transition-transform duration-300 group-hover:scale-110 ${active ? 'text-primary' : 'text-slate-500 group-hover:text-primary/70'}`}>
+                    {item.icon}
+                  </span>
+                  {item.label}
+                </Link>
+              );
+            })}
           </nav>
 
           <div className="flex items-center gap-3">
