@@ -153,13 +153,13 @@ const Marketplace: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           {filteredAssets.map((asset) => (
-            <div 
+            <article 
               key={asset.id} 
               className="group flex flex-col bg-surface-accent/20 rounded-2xl overflow-hidden border border-white/5 hover:border-primary/40 hover:bg-surface-accent/30 transition-all duration-500 cursor-pointer shadow-sm hover:shadow-2xl hover:shadow-primary/5"
               onClick={() => navigate(`/product/${asset.id}`)}
             >
               <div className="relative aspect-[16/10] overflow-hidden">
-                <img className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" src={asset.image} alt={asset.title} />
+                <img className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" src={asset.image} alt={asset.title} loading="lazy" />
                 <div className="absolute inset-0 bg-gradient-to-t from-bg-dark via-transparent to-transparent opacity-80"></div>
                 
                 <div className="absolute top-4 left-4 px-2.5 py-1 rounded bg-surface-dark/90 text-white backdrop-blur-md text-[10px] font-black uppercase tracking-widest flex items-center gap-2 border border-white/10">
@@ -207,7 +207,7 @@ const Marketplace: React.FC = () => {
                   </button>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
 

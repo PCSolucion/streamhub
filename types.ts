@@ -18,7 +18,6 @@ export interface Asset {
 export interface Tutorial {
   id: string;
   title: string;
-  level: 'Beginner' | 'Intermediate' | 'Advanced';
   duration: string;
   views: string;
   date: string;

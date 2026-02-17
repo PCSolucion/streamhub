@@ -129,6 +129,7 @@ const TutorialDetail: React.FC = () => {
                   <img 
                     src={TUTORIALS[(TUTORIALS.indexOf(tutorial) + 1) % TUTORIALS.length].thumbnail} 
                     className="w-full h-full object-cover transition-transform group-hover:scale-110" 
+                    loading="lazy"
                   />
                   <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                     <span className="material-symbols-outlined text-3xl text-white">play_arrow</span>

@@ -19,11 +19,11 @@
         theme: {
           extend: {
             colors: {
-              primary: "#1313ec",
-              secondary: "#8b5cf6",
-              "bg-dark": "#101022",
-              "surface-dark": "#1a1a3a",
-              "surface-accent": "#232348",
+              primary: "var(--primary)",
+              secondary: "var(--secondary)",
+              "bg-dark": "var(--bg-dark)",
+              "surface-dark": "var(--surface-dark)",
+              "surface-accent": "var(--surface-accent)",
             },
             fontFamily: {
               sans: ["Space Grotesk", "sans-serif"],
@@ -42,7 +42,7 @@
     </script>
     <style>
       body {
-        background-color: #101022;
+        background-color: var(--bg-dark);
         color: #f8fafc;
         scrollbar-gutter: stable;
       }
@@ -50,10 +50,10 @@
         width: 6px;
       }
       .custom-scrollbar::-webkit-scrollbar-track {
-        background: #101022;
+        background: var(--bg-dark);
       }
       .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #232348;
+        background: var(--surface-accent);
         border-radius: 10px;
       }
       .glass-header {

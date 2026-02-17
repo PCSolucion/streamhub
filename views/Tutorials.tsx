@@ -62,13 +62,13 @@ const Tutorials: React.FC = () => {
       {/* Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         {TUTORIALS.map((tutorial) => (
-          <div 
+          <article 
             key={tutorial.id} 
             className="group cursor-pointer flex flex-col"
             onClick={() => navigate(`/tutorial/${tutorial.id}`)}
           >
             <div className="relative aspect-video rounded-3xl overflow-hidden mb-5 bg-surface-accent border border-white/5 shadow-2xl transition-all duration-500 group-hover:shadow-primary/5 group-hover:border-primary/20">
-              <img alt={tutorial.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src={tutorial.thumbnail} />
+              <img alt={tutorial.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src={tutorial.thumbnail} loading="lazy" />
               <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all duration-300 backdrop-blur-[2px]">
                 <span className="material-symbols-outlined text-6xl text-white drop-shadow-2xl font-bold">play_circle</span>
               </div>
@@ -82,7 +82,7 @@ const Tutorials: React.FC = () => {
               <span className="opacity-30">•</span>
               <span>{tutorial.date}</span>
             </div>
-          </div>
+          </article>
         ))}
       </div>
 

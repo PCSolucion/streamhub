@@ -66,7 +66,6 @@ export const TUTORIALS: Tutorial[] = [
   {
     id: 't1',
     title: 'Cómo configurar Alertas Dinámicas y Overlays de Chat',
-    level: 'Intermediate',
     duration: '12:45',
     views: '8.2k',
     date: 'hace 2 días',
@@ -75,7 +74,6 @@ export const TUTORIALS: Tutorial[] = [
   {
     id: 't2',
     title: 'Optimizando Bitrate para Twitch y YouTube',
-    level: 'Beginner',
     duration: '08:12',
     views: '15k',
     date: 'hace 1 semana',
@@ -84,7 +82,6 @@ export const TUTORIALS: Tutorial[] = [
   {
     id: 't3',
     title: 'Scripting Avanzado de Python para Automatización de OBS',
-    level: 'Advanced',
     duration: '25:30',
     views: '4.1k',
     date: 'hace 5 días',
@@ -93,7 +90,6 @@ export const TUTORIALS: Tutorial[] = [
   {
     id: 't4',
     title: 'Enrutamiento de Audio Multi-Pista para VODs Perfectos',
-    level: 'Intermediate',
     duration: '15:00',
     views: '12.7k',
     date: 'hace 3 semanas',
