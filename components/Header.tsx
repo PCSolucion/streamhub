@@ -70,21 +70,10 @@ const Header: React.FC<HeaderProps> = ({ cartCount }) => {
             >
               Tutoriales
             </Link>
-            <button 
-              className="text-sm font-bold tracking-wide text-slate-300 hover:text-primary transition-colors"
-            >
-              Comunidad
-            </button>
           </nav>
 
           <div className="flex items-center gap-3">
-            <button className="relative p-2 rounded-lg bg-surface-accent/50 hover:bg-surface-accent text-white transition-all">
-              <span className="material-symbols-outlined">shopping_cart</span>
-              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold shadow-lg">{cartCount}</span>
-            </button>
-            <button className="hidden sm:flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold tracking-wide hover:brightness-110 active:scale-95 transition-all">
-              Entrar
-            </button>
+            {/* Shopping cart removed */}
           </div>
         </div>
       </div>

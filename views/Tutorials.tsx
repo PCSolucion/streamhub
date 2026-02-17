@@ -1,8 +1,11 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { TUTORIALS } from '../constants';
 
 const Tutorials: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="max-w-[1440px] mx-auto w-full px-6 lg:px-20 py-10 flex flex-col min-h-screen">
       {/* Featured Banner */}
@@ -41,7 +44,7 @@ const Tutorials: React.FC = () => {
       {/* Filter Tabs */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-12">
         <div className="flex items-center gap-3 overflow-x-auto pb-2 w-full md:w-auto no-scrollbar">
-          {['Todas las Guías', 'Principiante', 'Intermedio', 'Avanzado'].map((lvl, idx) => (
+          {['Todas las Guías'].map((lvl, idx) => (
             <button 
               key={lvl} 
               className={`px-8 py-3 rounded-2xl text-xs font-black uppercase tracking-widest whitespace-nowrap transition-all shadow-sm ${idx === 0 ? 'bg-primary text-white shadow-lg shadow-primary/20 scale-105' : 'bg-surface-accent/40 text-slate-500 hover:text-white hover:bg-surface-accent'}`}
@@ -59,7 +62,11 @@ const Tutorials: React.FC = () => {
       {/* Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         {TUTORIALS.map((tutorial) => (
-          <div key={tutorial.id} className="group cursor-pointer flex flex-col">
+          <div 
+            key={tutorial.id} 
+            className="group cursor-pointer flex flex-col"
+            onClick={() => navigate(`/tutorial/${tutorial.id}`)}
+          >
             <div className="relative aspect-video rounded-3xl overflow-hidden mb-5 bg-surface-accent border border-white/5 shadow-2xl transition-all duration-500 group-hover:shadow-primary/5 group-hover:border-primary/20">
               <img alt={tutorial.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src={tutorial.thumbnail} />
               <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all duration-300 backdrop-blur-[2px]">
@@ -67,9 +74,6 @@ const Tutorials: React.FC = () => {
               </div>
               <div className="absolute bottom-4 right-4 bg-bg-dark/80 backdrop-blur-md px-3 py-1.5 rounded-xl text-[10px] font-black tracking-widest text-white border border-white/10">
                 {tutorial.duration}
-              </div>
-              <div className={`absolute top-4 left-4 px-3 py-1.5 text-[9px] font-black rounded-xl uppercase tracking-widest border border-white/10 backdrop-blur-md ${tutorial.level === 'Intermediate' ? 'bg-primary/80' : tutorial.level === 'Advanced' ? 'bg-secondary/80' : 'bg-emerald-600/80'}`}>
-                {tutorial.level === 'Beginner' ? 'Principiante' : tutorial.level === 'Intermediate' ? 'Intermedio' : 'Avanzado'}
               </div>
             </div>
             <h3 className="font-bold text-lg leading-snug group-hover:text-primary transition-colors mb-2 line-clamp-2">{tutorial.title}</h3>

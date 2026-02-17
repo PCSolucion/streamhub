@@ -5,6 +5,7 @@ import Layout from "./components/Layout";
 const Marketplace = lazy(() => import("./views/Marketplace"));
 const Tutorials = lazy(() => import("./views/Tutorials"));
 const ProductDetail = lazy(() => import("./views/ProductDetail"));
+const TutorialDetail = lazy(() => import("./views/TutorialDetail"));
 
 const App: React.FC = () => {
   const [cartCount, setCartCount] = useState(3);
@@ -21,6 +22,7 @@ const App: React.FC = () => {
             <Route path="/" element={<Marketplace />} />
             <Route path="/tutorials" element={<Tutorials />} />
             <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="/tutorial/:id" element={<TutorialDetail />} />
           </Route>
         </Routes>
       </Suspense>
