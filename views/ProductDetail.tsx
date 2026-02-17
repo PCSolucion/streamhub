@@ -1,20 +1,35 @@
 
 import React from 'react';
-import { Asset, View } from '../types';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { ASSETS } from '../constants';
 
-interface ProductDetailProps {
-  product: Asset;
-  onNavigate: (view: View) => void;
-}
+const ProductDetail: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const product = ASSETS.find(p => p.id === id);
 
-const ProductDetail: React.FC<ProductDetailProps> = ({ product, onNavigate }) => {
+  if (!product) {
+    return (
+        <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
+            <h2 className="text-4xl font-black text-white mb-4">Producto no encontrado</h2>
+            <p className="text-slate-400 mb-8">El producto que buscas no existe o ha sido eliminado.</p>
+            <button 
+                onClick={() => navigate('/')} 
+                className="bg-primary text-white px-8 py-3 rounded-xl font-bold uppercase tracking-widest hover:brightness-110 transition-all"
+            >
+                Volver a la Tienda
+            </button>
+        </div>
+    );
+  }
+
   return (
     <div className="max-w-[1440px] mx-auto px-6 lg:px-20 py-10">
       {/* Breadcrumbs */}
       <nav className="flex items-center gap-3 text-xs font-black uppercase tracking-[0.2em] text-slate-500 mb-10">
-        <button onClick={() => onNavigate('marketplace')} className="hover:text-primary transition-colors">Marketplace</button>
+        <Link to="/" className="hover:text-primary transition-colors">Tienda</Link>
         <span className="material-symbols-outlined text-sm font-bold opacity-30">chevron_right</span>
-        <button onClick={() => onNavigate('marketplace')} className="hover:text-primary transition-colors">{product.category}</button>
+        <Link to={`/?category=${product.category}`} className="hover:text-primary transition-colors">{product.category === 'Tutorials' ? 'Tutoriales' : product.category}</Link>
         <span className="material-symbols-outlined text-sm font-bold opacity-30">chevron_right</span>
         <span className="text-white">{product.title}</span>
       </nav>
@@ -35,7 +50,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onNavigate }) =>
                 </div>
               </div>
               <div className="bg-surface-accent/30 backdrop-blur-md p-6 rounded-3xl border border-white/5 text-center min-w-[120px] shadow-xl">
-                <p className="text-[9px] text-slate-500 uppercase font-black tracking-[0.25em] mb-3">Rating</p>
+                <p className="text-[9px] text-slate-500 uppercase font-black tracking-[0.25em] mb-3">Valoración</p>
                 <div className="flex items-center justify-center gap-2 text-primary">
                   <span className="material-symbols-outlined fill-1 text-3xl">star</span>
                   <span className="text-3xl font-black text-white">4.9</span>
@@ -84,7 +99,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onNavigate }) =>
           {/* Tabs */}
           <div className="border-b border-white/5">
             <nav className="flex gap-12">
-              {['Documentation', 'Version History', 'Reviews'].map((tab, idx) => (
+              {['Documentación', 'Historial', 'Reseñas'].map((tab, idx) => (
                 <button key={tab} className={`pb-6 text-xs font-black uppercase tracking-[0.2em] transition-all relative ${idx === 0 ? 'text-primary' : 'text-slate-500 hover:text-white'}`}>
                   {tab}
                   {idx === 0 && <div className="absolute bottom-[-1px] left-0 right-0 h-1 bg-primary rounded-full shadow-lg shadow-primary/40"></div>}
@@ -95,23 +110,23 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onNavigate }) =>
 
           {/* Documentation Content */}
           <article className="prose prose-invert max-w-none">
-            <h3 className="text-2xl font-black tracking-tight mb-6">How to Install</h3>
+            <h3 className="text-2xl font-black tracking-tight mb-6">Cómo instalar</h3>
             <p className="text-slate-400 mb-8 font-medium">
-              1. Ensure you have <span className="bg-primary/10 px-2 py-0.5 rounded text-primary font-mono font-bold">Python 3.9+</span> installed on your system.<br/>
-              2. Install the required dependency: <code className="bg-surface-accent p-1.5 rounded text-secondary">pip install obsws-python</code>.<br/>
-              3. Open OBS and go to <span className="italic text-slate-500 font-bold">Tools -&gt; WebSocket Server Settings</span> to enable the server.<br/>
-              4. Copy the server password and paste it into the <code className="bg-surface-accent p-1.5 rounded text-emerald-400">config.json</code> file provided in the download.
+              1. Asegúrate de tener <span className="bg-primary/10 px-2 py-0.5 rounded text-primary font-mono font-bold">Python 3.9+</span> instalado en tu sistema.<br/>
+              2. Instala la dependencia requerida: <code className="bg-surface-accent p-1.5 rounded text-secondary">pip install obsws-python</code>.<br/>
+              3. Abre OBS y ve a <span className="italic text-slate-500 font-bold">Herramientas -&gt; Configuración del servidor WebSocket</span> para habilitar el servidor.<br/>
+              4. Copia la contraseña del servidor y pégala en el archivo <code className="bg-surface-accent p-1.5 rounded text-emerald-400">config.json</code> proporcionado en la descarga.
             </p>
             
-            <h3 className="text-2xl font-black tracking-tight mb-6">Available Commands</h3>
+            <h3 className="text-2xl font-black tracking-tight mb-6">Comandos Disponibles</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="p-6 rounded-2xl bg-surface-accent/20 border border-white/5 shadow-inner">
-                <span className="font-black text-primary block mb-2 uppercase tracking-widest text-sm">!switch [name]</span>
-                <p className="text-xs text-slate-500 font-bold leading-relaxed">Forces an immediate scene switch to the specified scene name.</p>
+                <span className="font-black text-primary block mb-2 uppercase tracking-widest text-sm">!switch [nombre]</span>
+                <p className="text-xs text-slate-500 font-bold leading-relaxed">Fuerza un cambio de escena inmediato al nombre de escena especificado.</p>
               </div>
               <div className="p-6 rounded-2xl bg-surface-accent/20 border border-white/5 shadow-inner">
                 <span className="font-black text-primary block mb-2 uppercase tracking-widest text-sm">!lock</span>
-                <p className="text-xs text-slate-500 font-bold leading-relaxed">Prevents the automatic switcher from changing scenes until unlocked.</p>
+                <p className="text-xs text-slate-500 font-bold leading-relaxed">Evita que el cambiador automático cambie de escena hasta que se desbloquee.</p>
               </div>
             </div>
           </article>
@@ -122,33 +137,33 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onNavigate }) =>
           <div className="bg-surface-accent/30 backdrop-blur-xl rounded-[2.5rem] border border-white/5 p-8 sticky top-24 shadow-2xl">
             <div className="flex items-end justify-between mb-8">
               <div>
-                <p className="text-[9px] text-slate-500 font-black uppercase tracking-[0.3em] mb-4">Price</p>
+                <p className="text-[9px] text-slate-500 font-black uppercase tracking-[0.3em] mb-4">Precio</p>
                 <h2 className="text-5xl font-black tracking-tighter">
                   {typeof product.price === 'number' ? `$${product.price}` : product.price}
                 </h2>
               </div>
               <div className="flex flex-col items-end">
                 <span className="text-[10px] text-emerald-400 font-black flex items-center gap-2 uppercase tracking-widest mb-1">
-                  <span className="material-symbols-outlined text-sm font-bold">verified</span> Verified Seller
+                  <span className="material-symbols-outlined text-sm font-bold">verified</span> Vendedor Verificado
                 </span>
-                <span className="text-[10px] text-slate-600 font-bold uppercase tracking-widest">Instant Access</span>
+                <span className="text-[10px] text-slate-600 font-bold uppercase tracking-widest">Acceso Instantáneo</span>
               </div>
             </div>
 
             <button className="w-full bg-primary text-white py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-sm flex items-center justify-center gap-3 hover:brightness-110 hover:scale-105 active:scale-95 transition-all mb-4 shadow-2xl shadow-primary/30">
-              <span className="material-symbols-outlined text-xl">shopping_bag</span> Purchase Now
+              <span className="material-symbols-outlined text-xl">shopping_bag</span> Comprar Ahora
             </button>
             <button className="w-full bg-white/5 text-slate-300 py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-sm flex items-center justify-center gap-3 hover:bg-white/10 active:scale-95 transition-all">
-              <span className="material-symbols-outlined text-xl">favorite</span> Add to Wishlist
+              <span className="material-symbols-outlined text-xl">favorite</span> Añadir a Lista
             </button>
 
             {/* Technical Requirements */}
             <div className="mt-10 pt-10 border-t border-white/5">
-              <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 mb-8">Requirements</h4>
+              <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 mb-8">Requisitos</h4>
               <div className="space-y-8">
                 {[
-                  { icon: 'terminal', label: 'Language', value: 'Python 3.9+' },
-                  { icon: 'videocam', label: 'Platform', value: 'OBS Studio 28.0+' },
+                  { icon: 'terminal', label: 'Lenguaje', value: 'Python 3.9+' },
+                  { icon: 'videocam', label: 'Plataforma', value: 'OBS Studio 28.0+' },
                   { icon: 'settings_ethernet', label: 'API', value: 'Websocket 5.x' },
                 ].map(req => (
                   <div key={req.label} className="flex items-center gap-4">
@@ -171,7 +186,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onNavigate }) =>
                   <img alt="Author" className="w-full h-full object-cover rounded-xl" src="https://picsum.photos/100/100?random=1" />
                 </div>
                 <div>
-                  <p className="text-[9px] text-slate-600 font-black uppercase tracking-widest mb-1">Created by</p>
+                  <p className="text-[9px] text-slate-600 font-black uppercase tracking-widest mb-1">Creado por</p>
                   <a className="font-black hover:text-primary transition-all text-sm tracking-tight" href="#">PixelLogic Dev</a>
                 </div>
                 <button className="ml-auto text-primary hover:bg-primary/10 size-10 rounded-xl transition-all flex items-center justify-center border border-primary/10">
@@ -185,10 +200,10 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onNavigate }) =>
           <div className="bg-primary/5 rounded-[2.5rem] border border-primary/20 p-8 flex items-start gap-5 shadow-2xl">
             <span className="material-symbols-outlined text-primary text-3xl font-bold">help_outline</span>
             <div>
-              <h4 className="text-sm font-black uppercase tracking-widest mb-2 text-white">Need help?</h4>
-              <p className="text-xs text-slate-500 font-bold leading-relaxed mb-6 opacity-80">Join our developer Discord for installation support and community scripts.</p>
+              <h4 className="text-sm font-black uppercase tracking-widest mb-2 text-white">¿Necesitas ayuda?</h4>
+              <p className="text-xs text-slate-500 font-bold leading-relaxed mb-6 opacity-80">Únete a nuestro Discord de desarrolladores para soporte de instalación y scripts de la comunidad.</p>
               <a className="text-xs font-black text-primary flex items-center gap-2 uppercase tracking-widest hover:gap-4 transition-all" href="#">
-                Join Community <span className="material-symbols-outlined text-sm font-bold">arrow_forward</span>
+                Unirse a la Comunidad <span className="material-symbols-outlined text-sm font-bold">arrow_forward</span>
               </a>
             </div>
           </div>

@@ -9,17 +9,17 @@ const Tutorials: React.FC = () => {
       <section className="mb-16 relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-primary/30 to-secondary/30 border border-white/5 shadow-2xl">
         <div className="flex flex-col lg:flex-row items-stretch">
           <div className="w-full lg:w-1/2 p-10 lg:p-20 z-10 flex flex-col justify-center">
-            <span className="inline-block self-start px-4 py-1.5 bg-primary text-[10px] font-black uppercase tracking-[0.2em] rounded-full mb-6 shadow-xl shadow-primary/20">Featured Course</span>
+            <span className="inline-block self-start px-4 py-1.5 bg-primary text-[10px] font-black uppercase tracking-[0.2em] rounded-full mb-6 shadow-xl shadow-primary/20">Curso Destacado</span>
             <h1 className="text-5xl lg:text-7xl font-black leading-none tracking-tighter mb-6">
-              OBS Setup Masterclass: <br/><span className="text-primary">2024 Ultimate Guide</span>
+              Masterclass de Setup OBS: <br/><span className="text-primary">Guía Definitiva 2024</span>
             </h1>
             <p className="text-slate-300 text-lg lg:text-xl font-medium mb-10 max-w-lg leading-relaxed opacity-80">
-              Master every setting, filter, and plugin in this 35-minute comprehensive course for professional streamers.
+              Domina cada configuración, filtro y plugin en este curso completo de 35 minutos para streamers profesionales.
             </p>
             <div className="flex flex-wrap gap-6 items-center">
               <button className="bg-primary text-white px-10 py-4 rounded-2xl font-black uppercase tracking-widest text-sm hover:scale-105 hover:brightness-110 transition-all shadow-2xl shadow-primary/40 flex items-center gap-3 active:scale-95">
                 <span className="material-symbols-outlined text-2xl font-bold">play_circle</span>
-                Start Learning
+                Empezar Aprendizaje
               </button>
               <div className="flex items-center gap-3 text-slate-400 font-bold px-4 py-3">
                 <span className="material-symbols-outlined text-lg">schedule</span>
@@ -41,7 +41,7 @@ const Tutorials: React.FC = () => {
       {/* Filter Tabs */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-12">
         <div className="flex items-center gap-3 overflow-x-auto pb-2 w-full md:w-auto no-scrollbar">
-          {['All Guides', 'Beginner', 'Intermediate', 'Advanced'].map((lvl, idx) => (
+          {['Todas las Guías', 'Principiante', 'Intermedio', 'Avanzado'].map((lvl, idx) => (
             <button 
               key={lvl} 
               className={`px-8 py-3 rounded-2xl text-xs font-black uppercase tracking-widest whitespace-nowrap transition-all shadow-sm ${idx === 0 ? 'bg-primary text-white shadow-lg shadow-primary/20 scale-105' : 'bg-surface-accent/40 text-slate-500 hover:text-white hover:bg-surface-accent'}`}
@@ -52,7 +52,7 @@ const Tutorials: React.FC = () => {
         </div>
         <div className="w-full md:w-80 relative group">
           <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary transition-colors">search</span>
-          <input className="w-full bg-surface-accent/40 border-none rounded-2xl pl-12 pr-4 py-4 text-sm focus:ring-2 focus:ring-primary text-white placeholder:text-slate-600 transition-all" placeholder="Search tutorials..." type="text" />
+          <input className="w-full bg-surface-accent/40 border-none rounded-2xl pl-12 pr-4 py-4 text-sm focus:ring-2 focus:ring-primary text-white placeholder:text-slate-600 transition-all" placeholder="Buscar tutoriales..." type="text" />
         </div>
       </div>
 
@@ -69,12 +69,12 @@ const Tutorials: React.FC = () => {
                 {tutorial.duration}
               </div>
               <div className={`absolute top-4 left-4 px-3 py-1.5 text-[9px] font-black rounded-xl uppercase tracking-widest border border-white/10 backdrop-blur-md ${tutorial.level === 'Intermediate' ? 'bg-primary/80' : tutorial.level === 'Advanced' ? 'bg-secondary/80' : 'bg-emerald-600/80'}`}>
-                {tutorial.level}
+                {tutorial.level === 'Beginner' ? 'Principiante' : tutorial.level === 'Intermediate' ? 'Intermedio' : 'Avanzado'}
               </div>
             </div>
             <h3 className="font-bold text-lg leading-snug group-hover:text-primary transition-colors mb-2 line-clamp-2">{tutorial.title}</h3>
             <div className="flex items-center gap-3 text-slate-500 text-[10px] font-black uppercase tracking-widest mt-auto">
-              <span>{tutorial.views} views</span>
+              <span>{tutorial.views} vistas</span>
               <span className="opacity-30">•</span>
               <span>{tutorial.date}</span>
             </div>
@@ -85,7 +85,7 @@ const Tutorials: React.FC = () => {
       <div className="mt-20 flex justify-center">
         <button className="group flex items-center gap-3 bg-surface-accent/40 hover:bg-surface-accent text-slate-300 hover:text-white border border-white/5 px-12 py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-xs transition-all active:scale-95 shadow-xl">
           <span className="material-symbols-outlined group-hover:rotate-180 transition-transform duration-500">expand_more</span>
-          Load More Tutorials
+          Cargar Más
         </button>
       </div>
     </div>

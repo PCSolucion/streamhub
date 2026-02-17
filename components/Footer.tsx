@@ -1,11 +1,7 @@
 import React from 'react';
-import { View } from '../types';
+import { Link } from 'react-router-dom';
 
-interface FooterProps {
-  onNavigate: (view: View) => void;
-}
-
-const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
+const Footer: React.FC = () => {
   return (
     <footer className="bg-bg-dark border-t border-white/5 py-12 px-6 lg:px-20 mt-auto">
       <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
@@ -14,7 +10,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <span className="material-symbols-outlined text-3xl font-bold">rocket_launch</span>
             <h2 className="text-xl font-bold uppercase tracking-tighter">StreamHub</h2>
           </div>
-          <p className="text-sm text-slate-500 leading-relaxed mb-6">The world's leading marketplace for custom streamer assets, from code-driven automation to cinematic visuals.</p>
+          <p className="text-sm text-slate-500 leading-relaxed mb-6">El marketplace líder mundial para assets personalizados de streaming, desde automatización por código hasta visuales cinematográficos.</p>
           <div className="flex gap-3">
             {['share', 'chat', 'mail'].map((icon) => (
               <a key={icon} className="size-9 rounded-lg bg-surface-accent flex items-center justify-center hover:bg-primary transition-all text-white shadow-sm" href="#">
@@ -25,28 +21,27 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         </div>
 
         <div>
-          <h4 className="font-bold mb-6 text-sm uppercase tracking-widest text-slate-400">Marketplace</h4>
+          <h4 className="font-bold mb-6 text-sm uppercase tracking-widest text-slate-400">Tienda</h4>
           <ul className="flex flex-col gap-4 text-sm text-slate-500">
-            {['Browse All', 'Top Scripts', 'Masterclass Series', 'Intro Kits'].map(link => (
+            {['Ver Todo', 'Mejores Scripts', 'Series Masterclass', 'Kits de Intro'].map(link => (
               <li key={link}>
-                <button 
-                  onClick={() => onNavigate('marketplace')} 
+                <Link 
+                  to="/" 
                   className="hover:text-primary transition-colors text-left"
                 >
                   {link}
-                </button>
+                </Link>
               </li>
             ))}
           </ul>
         </div>
 
         <div>
-          <h4 className="font-bold mb-6 text-sm uppercase tracking-widest text-slate-400">Support</h4>
+          <h4 className="font-bold mb-6 text-sm uppercase tracking-widest text-slate-400">Soporte</h4>
           <ul className="flex flex-col gap-4 text-sm text-slate-500">
-            {['Dev Documentation', 'License Info', 'Creator Program', 'FAQ'].map(link => (
+            {['Documentación Dev', 'Licencias', 'Programa de Creadores', 'Preguntas Frecuentes'].map(link => (
               <li key={link}>
                 <button 
-                  onClick={() => onNavigate('marketplace')}
                   className="hover:text-primary transition-colors text-left"
                 >
                   {link}
@@ -58,20 +53,20 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
 
         <div>
           <h4 className="font-bold mb-6 text-sm uppercase tracking-widest text-slate-400">Newsletter</h4>
-          <p className="text-sm text-slate-500 mb-4">Get the latest asset drops and streaming tips.</p>
+          <p className="text-sm text-slate-500 mb-4">Recibe los últimos lanzamientos y consejos de streaming.</p>
           <div className="flex gap-2">
-            <input className="bg-surface-accent/50 border-none rounded-lg py-2 px-4 text-sm flex-1 focus:ring-primary focus:ring-1 text-white" placeholder="Email address" type="email" />
-            <button className="bg-primary px-5 py-2 rounded-lg font-bold text-sm hover:brightness-110 active:scale-95 transition-all text-white shadow-lg">Join</button>
+            <input className="bg-surface-accent/50 border-none rounded-lg py-2 px-4 text-sm flex-1 focus:ring-primary focus:ring-1 text-white" placeholder="Dirección de correo" type="email" />
+            <button className="bg-primary px-5 py-2 rounded-lg font-bold text-sm hover:brightness-110 active:scale-95 transition-all text-white shadow-lg">Unirse</button>
           </div>
         </div>
       </div>
       
       <div className="max-w-[1440px] mx-auto border-t border-white/5 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-slate-600 uppercase font-bold tracking-[0.15em]">
-        <p>© 2024 StreamHub Marketplace. All rights reserved.</p>
+        <p>© 2024 StreamHub Marketplace. Todos los derechos reservados.</p>
         <div className="flex gap-8">
-          <a className="hover:text-slate-400 transition-colors" href="#">Privacy Policy</a>
-          <a className="hover:text-slate-400 transition-colors" href="#">Terms of Service</a>
-          <a className="hover:text-slate-400 transition-colors" href="#">Cookie Policy</a>
+          <a className="hover:text-slate-400 transition-colors" href="#">Política de Privacidad</a>
+          <a className="hover:text-slate-400 transition-colors" href="#">Términos de Servicio</a>
+          <a className="hover:text-slate-400 transition-colors" href="#">Política de Cookies</a>
         </div>
       </div>
     </footer>
